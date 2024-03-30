@@ -1,6 +1,5 @@
 export class CreateCarDto {
-  id: number;
-  licenseNumber: string;
+  license: string;
   brand: string;
   series: string;
   remark?: string;

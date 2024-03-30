@@ -4,6 +4,7 @@ import { UpdateCarDto } from './dto/update-car.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Car } from './entities/car.entity';
 import { Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CarService {
@@ -12,22 +13,25 @@ export class CarService {
     private readonly carRepository: Repository<Car>,
   ) {}
   create(createCarDto: CreateCarDto) {
-    return this.carRepository.create(createCarDto);
+    return this.carRepository.save({
+      ...createCarDto,
+      id: uuidv4(),
+    });
   }
 
   findAll() {
     return this.carRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.carRepository.findOneBy({ id });
   }
 
-  update(id: number, updateCarDto: UpdateCarDto) {
+  update(id: string, updateCarDto: UpdateCarDto) {
     return this.carRepository.update(id, updateCarDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.carRepository.delete(id);
   }
 }
